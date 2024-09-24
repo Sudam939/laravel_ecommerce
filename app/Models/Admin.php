@@ -7,15 +7,14 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser
+class Admin extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
-    protected $guard = 'web';
+    protected $guard = 'admin';
 
 
 
@@ -51,26 +50,6 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * Get all of the shipping_addresses for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function shipping_addresses(): HasMany
-    {
-        return $this->hasMany(ShippingAddress::class);
-    }
-
-    /**
-     * Get all of the carts for the User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function carts(): HasMany
-    {
-        return $this->hasMany(Cart::class);
     }
 
 

@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser
+class Vendor extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
-    protected $guard = 'web';
+    protected $guard = 'vendor';
 
 
 
@@ -53,24 +53,35 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+
     /**
-     * Get all of the shipping_addresses for the User
+     * Get all of the vendor_stores for the Vendor
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shipping_addresses(): HasMany
+    public function vendor_stores(): HasMany
     {
-        return $this->hasMany(ShippingAddress::class);
+        return $this->hasMany(VendorStore::class);
     }
 
     /**
-     * Get all of the carts for the User
+     * Get all of the products for the Vendor
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function carts(): HasMany
+    public function products(): HasMany
     {
-        return $this->hasMany(Cart::class);
+        return $this->hasMany(Product::class);
+    }
+
+    /**
+     * Get all of the orders for the Vendor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 
 
