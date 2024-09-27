@@ -1,4 +1,23 @@
+:root{
+    --primary:#009900;
+    --secondary:#ffcc33;
+}
 
+.primary{
+    color: var(--primary);
+}
+
+.bg-primary{
+    background-color: var(--primary);
+}
+
+.secondary{
+    color: var(--secondary);
+}
+
+.bg-secondary{
+    background-color: var(--secondary);
+}
 
 .container{
     width: 86%;
