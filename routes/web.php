@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/vendor/{id}', [PageController::class, 'vendor'])->name('vendor');
+
+
 Route::post('/vendor-store', [PageController::class, 'vendor_store'])->name('vendor_store');
 
 

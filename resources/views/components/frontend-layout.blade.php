@@ -10,17 +10,18 @@
 
     <link rel="stylesheet" href="/frontend/style.css">
     <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+
 </head>
 
 <body>
     @include('sweetalert::alert')
 
     <header>
-        <x-frontend-navbar />
     </header>
 
 
     <main>
+        <x-frontend-navbar />
         {{ $slot }}
     </main>
 

@@ -1,5 +1,98 @@
 <x-frontend-layout>
 
+    {{-- Carousels --}}
+    <section>
+        <div id="default-carousel" class="relative w-full" data-carousel="slide">
+            <!-- Carousel wrapper -->
+            <div class="relative h-[200px] overflow-hidden md:h-[400px] lg:h-[500px] xl:h-[600px]">
+                @foreach ($carousels as $carousel)
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <img src="{{ asset(Storage::url($carousel->image)) }}"
+                            class="absolute block w-full object-cover h-[200px] md:h-[400px] lg:h-[500px] xl:h-[600px] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                            alt="Carousel Image">
+                    </div>
+                @endforeach
+            </div>
+            <!-- Slider indicators -->
+            <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                @foreach ($carousels as $index => $carousel)
+                    <button type="button" class="w-3 h-3 rounded-full"
+                        aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ ++$index }}"
+                        data-carousel-slide-to="{{ $index }}"></button>
+                @endforeach
+            </div>
+            <!-- Slider controls -->
+            <button type="button"
+                class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                data-carousel-prev>
+                <span
+                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 1 1 5l4 4" />
+                    </svg>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </button>
+            <button type="button"
+                class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                data-carousel-next>
+                <span
+                    class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                    <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span class="sr-only">Next</span>
+                </span>
+            </button>
+        </div>
+    </section>
+    {{-- Carousels --}}
+
+
+    {{-- Featured Restaurant/Store --}}
+    <section>
+        <div class="container py-10 space-y-6">
+
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-semibold primary">Featured Restaurant/Store</h1>
+                    <p>The nearest restaurant/store to your location</p>
+                </div>
+
+                <div>
+                    <a href="">View all <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+
+            <div class="grid grid-cols-3 gap-6">
+                @foreach ($vendors as $vendor)
+                    <a href="{{ route('vendor', $vendor->id) }}">
+                        <div class="border rounded-md overflow-hidden hover:shadow-lg duration-300">
+                            <img class="h-[200px] w-full object-cover"
+                                src="{{ asset(Storage::url($vendor->vendor_stores[0]->featured_image)) }}"
+                                alt="">
+
+                            <div class="py-2 px-3">
+                                <h2 class="font-semibold">{{ $vendor->vendor_stores[0]->name }}, Menus
+                                    ({{ $vendor->products->where('status', 1)->count() }})
+                                </h2>
+                                <p class="text-sm">{{ $vendor->vendor_stores[0]->address }}</p>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    {{-- Featured Restaurant/Store --}}
+
+
+    {{-- Vendor Request --}}
     <section class="py-10">
         <div class="container">
             <div class="flex flex-col items-center text-center w-[54%] m-auto gap-5">
@@ -21,8 +114,7 @@
                     <!-- Modal content -->
                     <div class="relative bg-white rounded-lg shadow">
                         <!-- Modal header -->
-                        <div
-                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                             <h3 class="text-xl font-semibold text-gray-900">
                                 SEND A REQUEST
                             </h3>
@@ -67,8 +159,9 @@
                                     <div>
                                         <label for="phone">Enter Phone Number <span
                                                 class="text-red-600">*</span></label>
-                                        <input type="text" name="phone" id="phone" class="w-full rounded-md"
-                                            value="{{ old('phone') }}" placeholder="eg. 9800000000">
+                                        <input type="text" name="phone" id="phone"
+                                            class="w-full rounded-md" value="{{ old('phone') }}"
+                                            placeholder="eg. 9800000000">
                                         @error('phone')
                                             <span class="text-red-600">{{ $message }}</span>
                                         @enderror
@@ -88,15 +181,17 @@
                                     <div>
                                         <label for="address">Enter Vendor Address <span
                                                 class="text-red-600">*</span></label>
-                                        <input type="text" name="address" id="address" class="w-full rounded-md"
-                                            value="{{ old('address') }}" placeholder="eg. Dharan 1, Sunsari">
+                                        <input type="text" name="address" id="address"
+                                            class="w-full rounded-md" value="{{ old('address') }}"
+                                            placeholder="eg. Dharan 1, Sunsari">
                                         @error('address')
                                             <span class="text-red-600">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="col-span-2">
-                                        <button type="submit" class="bg-[#009900] px-4 py-1 rounded-md text-white">Send
+                                        <button type="submit"
+                                            class="bg-[#009900] px-4 py-1 rounded-md text-white">Send
                                             Request</button>
                                     </div>
                                 </div>
@@ -109,5 +204,7 @@
 
         </div>
     </section>
+    {{-- Vendor Request --}}
+
 
 </x-frontend-layout>
