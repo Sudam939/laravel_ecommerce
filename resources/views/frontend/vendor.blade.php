@@ -24,11 +24,12 @@
         <div class="container py-10 space-y-6">
             <div class="grid grid-cols-4 items-center">
                 <div>
-                    <a href="" class="text-xl primary font-semibold">All Menu</a>
+                    <a href="{{ route('vendor', $vendor_store->vendor->id) }}" class="text-xl primary font-semibold">All
+                        Menu</a>
                 </div>
 
                 <div class="col-span-3">
-                    <form action="" method="get">
+                    <form action="{{ route('vendor', $vendor_store->vendor->id) }}" method="get">
                         <div class="flex">
                             <input type="search" name="q" id="search" class="w-full rounded-s-lg"
                                 placeholder="search product by name">
@@ -40,19 +41,8 @@
             </div>
 
             <div class="grid grid-cols-4 gap-8">
-                @foreach ($vendor->products->where('status', 1) as $product)
-                    <div class="grid grid-cols-5 gap-4 items-center border rounded-md overflow-hidden hover:shadow-md">
-                        <div class=" col-span-2">
-                            <img class="w-full h-[100px] object-cover" src="{{ asset(Storage::url($product->image)) }}"
-                                alt="{{ $product->name }}">
-                        </div>
-
-                        <div class="text-sm pr-2 col-span-3">
-                            <h1 class="font-semibold">{{ $product->name }}</h1>
-                            <p>Rs. {{$product->price}}</p>
-                            <p>{{ $vendor_store->name }}</p>
-                        </div>
-                    </div>
+                @foreach ($products as $product)
+                    <x-product-card :product="$product" />
                 @endforeach
             </div>
         </div>

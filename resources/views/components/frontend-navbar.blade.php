@@ -6,10 +6,10 @@
             </a>
 
             <div class="flex-grow">
-                <form action="" method="get">
+                <form action="{{ route('search') }}" method="get">
                     <div class="flex">
                         <input type="search" name="q" id="search" class="w-full rounded-s-lg"
-                            placeholder="compare products">
+                            placeholder="{{ $random_product }}">
                         <button type="submit" class="bg-gray-300 primary font-bold px-4 rounded-e-lg">COMPARE</button>
                     </div>
                 </form>
@@ -64,7 +64,7 @@
     <form action="" method="get">
         <div class="flex">
             <input type="search" name="q" id="search" class="w-full rounded-s-lg"
-                placeholder="compare products">
+                placeholder="{{ $random_product }}">
             <button type="submit" class="bg-gray-300 primary font-bold px-4 rounded-e-lg">COMPARE</button>
         </div>
     </form>
