@@ -29,6 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-cart', [UserController::class, 'store_cart'])->name('store_cart');
     Route::get('/carts', [UserController::class, 'carts'])->name('carts');
     Route::delete('/delete-cart/{id}', [UserController::class, 'delete_cart'])->name('delete_cart');
+    Route::get('/checkout', [UserController::class, 'checkout'])->name('checkout');
+
+    Route::post('/store-address', [UserController::class, 'store_address'])->name('store_address');
+    Route::post('/store-order', [UserController::class, 'store_order'])->name('store_order');
+
 });
 
 require __DIR__ . '/auth.php';
