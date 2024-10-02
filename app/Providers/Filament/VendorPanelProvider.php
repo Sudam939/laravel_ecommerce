@@ -30,6 +30,7 @@ class VendorPanelProvider extends PanelProvider
                 'primary' => Color::Green,
             ])
             ->login()
+            ->brandLogo(fn()=> view('logo'))
             ->discoverResources(in: app_path('Filament/Vendor/Resources'), for: 'App\\Filament\\Vendor\\Resources')
             ->discoverPages(in: app_path('Filament/Vendor/Pages'), for: 'App\\Filament\\Vendor\\Pages')
             ->pages([

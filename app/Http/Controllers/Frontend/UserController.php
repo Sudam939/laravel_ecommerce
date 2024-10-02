@@ -99,7 +99,7 @@ class UserController extends Controller
         $vendors = [];
         $total = 0;
         foreach ($carts as $cart) {
-            $total += $cart->product->price;
+            $total += $cart->price;
             $vendor = $cart->product->vendor;
             if (!in_array($vendor, $vendors)) {
                 $vendors[] = $vendor;

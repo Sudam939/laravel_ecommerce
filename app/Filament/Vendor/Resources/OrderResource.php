@@ -6,6 +6,7 @@ use App\Filament\Vendor\Resources\OrderResource\Pages;
 use App\Filament\Vendor\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -30,19 +31,28 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('vendor_id')
-                    ->relationship('vendor', 'name')
-                    ->required(),
                 Forms\Components\Select::make('shipping_address_id')
-                    ->relationship('shipping_address', 'title')
+                    ->relationship('shipping_address', 'address_note')
                     ->required(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
                     ->required()
-                    ->maxLength(255)
+                    ->options([
+                        'pending' => 'pending',
+                        'rejected' => 'rejected',
+                        'approved' => 'approved',
+                    ])
                     ->default('pending'),
                 Forms\Components\TextInput::make('total_amt')
                     ->required()
                     ->numeric(),
+                Repeater::make('order_descriptions')
+                    ->relationship('order_descriptions')
+                    ->schema([
+                        Forms\Components\Select::make('product_id')
+                            ->relationship('product', 'name'),
+                        Forms\Components\TextInput::make('qty'),
+                        Forms\Components\TextInput::make('price'),
+                    ])->columnSpanFull()->grid(2),
             ]);
     }
 
@@ -50,7 +60,6 @@ class OrderResource extends Resource
     {
         return $table
             ->query(fn() => Order::query()
-                ->where('status', 'pending')
                 ->where('vendor_id', Auth::guard('vendor')->user()->id))
             ->defaultSort('id', 'desc')
             ->columns([
@@ -79,7 +88,17 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->required()
+                            ->options([
+                                'pending' => 'pending',
+                                'rejected' => 'rejected',
+                                'approved' => 'approved',
+                            ])
+                            ->default('pending'),
+                    ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -101,7 +120,7 @@ class OrderResource extends Resource
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            // 'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }
