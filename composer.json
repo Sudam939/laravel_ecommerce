@@ -9,6 +9,7 @@
         "filament/filament": "^3.2",
         "laravel/breeze": "^2.2",
         "laravel/framework": "^11.9",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "realrashid/sweet-alert": "^7.2"
     },

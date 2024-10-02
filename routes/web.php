@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/vendor/{id}', [PageController::class, 'vendor'])->name('vendor');
 Route::get('/search', [PageController::class, 'search'])->name('search');
-
-
 Route::post('/vendor-store', [PageController::class, 'vendor_store'])->name('vendor_store');
+
+// Google Routes
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
 
 Route::get('/dashboard', function () {
@@ -33,7 +36,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/store-address', [UserController::class, 'store_address'])->name('store_address');
     Route::post('/store-order', [UserController::class, 'store_order'])->name('store_order');
-
 });
 
 require __DIR__ . '/auth.php';
