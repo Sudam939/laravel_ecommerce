@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <h4>Check Out</h4>
-                    <a href="{{route('carts')}}" class="btn btn-primary">go back</a>
+                    <a href="{{ route('carts') }}" class="btn btn-primary">go back</a>
                 </div>
                 <div class="card-body">
                     <div>
@@ -12,7 +12,7 @@
                         <div class="py-3">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addressModal">Add Shipping Address</button>
-                            <form action="{{route('store_order')}}" method="post">
+                            <form action="{{ route('payment') }}" method="get">
                                 @csrf
                                 @if (count(Auth::user()->shipping_addresses) > 0)
                                     @foreach (Auth::user()->shipping_addresses as $address)

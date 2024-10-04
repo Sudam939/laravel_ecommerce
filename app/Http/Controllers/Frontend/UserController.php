@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -87,11 +88,9 @@ class UserController extends Controller
 
 
 
-    public function store_order(Request $request)
+    public function store_order()
     {
-        $request->validate([
-            'address' => 'required',
-        ]);
+        $address = Cookie::get('address');
 
         $user = Auth::guard('web')->user();
 
@@ -109,7 +108,7 @@ class UserController extends Controller
         foreach ($vendors as $vendor) {
             $order = new Order();
             $order->vendor_id = $vendor->id;
-            $order->shipping_address_id = $request->address;
+            $order->shipping_address_id = $address;
             $order->total_amt = $total;
             $order->save();
 
@@ -137,6 +136,6 @@ class UserController extends Controller
 
         toast('Order Placed successfully!', 'success');
 
-        return redirect()->back();
+        return redirect()->route('dashboard');
     }
 }

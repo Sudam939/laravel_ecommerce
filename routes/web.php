@@ -3,12 +3,20 @@
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\UserController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
+
+Route::get('/order/success', function(){
+    return redirect()->route('store_order');
+});
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/vendor/{id}', [PageController::class, 'vendor'])->name('vendor');
@@ -35,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout', [UserController::class, 'checkout'])->name('checkout');
 
     Route::post('/store-address', [UserController::class, 'store_address'])->name('store_address');
-    Route::post('/store-order', [UserController::class, 'store_order'])->name('store_order');
+    Route::get('/store-order', [UserController::class, 'store_order'])->name('store_order');
 });
 
 require __DIR__ . '/auth.php';
